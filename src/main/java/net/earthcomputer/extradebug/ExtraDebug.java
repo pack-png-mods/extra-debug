@@ -18,6 +18,7 @@ public class ExtraDebug {
         extraLines.add(String.format("Pos: %.4f / %.4f / %.4f (%.4f feet)", player.posX, player.posY, player.posZ, player.boundingBox.minY));
         extraLines.add(String.format("Chunk: %d / %d In Chunk %d / %d", floor(player.posX) & 15, floor(player.posZ) & 15, floor(player.posX) >> 4, floor(player.posZ) >> 4));
         extraLines.add(String.format("Rot: %.4f / %.4f Facing: %s", normalizeYaw(player.rotationYaw), player.rotationPitch, getFacingString(player.rotationYaw)));
+        extraLines.add(String.format("Seed: %d", mc.field_6324_e.randomSeed));
 
         FontRenderer fontRenderer = mc.field_6314_o;
         for (int i = 0; i < extraLines.size(); i++) {
