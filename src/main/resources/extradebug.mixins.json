@@ -1,11 +1,12 @@
 {
   "required": true,
-  "package": "net.earthcomputer.worldgentests.mixin",
+  "package": "net.earthcomputer.extradebug.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "MixinMinecraft"
+    "MixinEntityRenderer",
+    "MixinGuiIngame"
   ],
   "injectors": {
     "defaultRequire": 1
