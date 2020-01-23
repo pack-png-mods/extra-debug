@@ -41,7 +41,7 @@ public class ExtraDebug {
     }
 
     static String getFacingString(float yaw) {
-        switch ((int) (normalizeYaw(yaw + 45) + 180) / 90) {
+        switch (((int) (normalizeYaw(yaw + 45) + 180) / 90) % 4) {
             case 2: return "South (Towards Positive Z)";
             case 3: return "West (Towards Negative X)";
             case 0: return "North (Towards Negative Z)";
