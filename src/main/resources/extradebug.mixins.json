@@ -6,7 +6,8 @@
   ],
   "client": [
     "MixinEntityRenderer",
-    "MixinGuiIngame"
+    "MixinGuiIngame",
+    "MixinMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
