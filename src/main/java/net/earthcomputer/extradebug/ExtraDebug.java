@@ -4,6 +4,7 @@ import java.util.*;
 
 import net.minecraft.src.EntityPlayerSP;
 import net.minecraft.src.FontRenderer;
+import net.minecraft.src.MobSpawnerBase;
 import net.minecraft.src.Tessellator;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -19,7 +20,10 @@ public class ExtraDebug {
         extraLines.add(String.format("Chunk: %d / %d In Chunk %d / %d In Population %d / %d", floor(player.posX) & 15, floor(player.posZ) & 15, floor(player.posX) >> 4, floor(player.posZ) >> 4, floor(player.posX - 8) >> 4, floor(player.posZ - 8) >> 4));
         extraLines.add(String.format("Rot: %.4f / %.4f Facing: %s", normalizeYaw(player.rotationYaw), player.rotationPitch, getFacingString(player.rotationYaw)));
         extraLines.add(String.format("Seed: %d", mc.field_6324_e.randomSeed));
-        extraLines.add(String.format("Population seed: %d", getPopulationSeed(mc.field_6324_e.randomSeed, floor(player.posX - 8) >> 4, floor(player.posZ - 8) >> 4)));
+        long populationSeed = getPopulationSeed(mc.field_6324_e.randomSeed, floor(player.posX - 8) >> 4, floor(player.posZ - 8) >> 4);
+        extraLines.add(String.format("Population seed: %d (xored: %d)", populationSeed, populationSeed ^ 0x5deece66dL));
+        MobSpawnerBase biome = mc.field_6324_e.func_4075_a().func_4073_a(floor(player.posX), floor(player.posZ));
+        extraLines.add("Biome: " + biome.field_6504_m);
 
         FontRenderer fontRenderer = mc.field_6314_o;
         for (int i = 0; i < extraLines.size(); i++) {
@@ -53,9 +57,9 @@ public class ExtraDebug {
 
     static long getPopulationSeed(long worldSeed, int chunkX, int chunkZ) {
         Random rand = new Random(worldSeed);
-        long i = rand.nextLong() | 1;
-        long j = rand.nextLong() | 1;
-        return (chunkX * i + chunkZ * j) ^ worldSeed ^ 0x5deece66dL;
+        long i = rand.nextLong() / 2 * 2 + 1;
+        long j = rand.nextLong() / 2 * 2 + 1;
+        return ((chunkX * i + chunkZ * j) ^ worldSeed) & 0xffffffffffffL;
     }
 
     public static void renderChunkBorders(Minecraft mc, float partialTicks) {
